@@ -1,0 +1,416 @@
+\documentclass{beamer}
+
+\setbeamertemplate{navigation symbols}{}
+
+\usepackage[utf8]{inputenc}
+\usepackage[english,greek]{babel}
+\usepackage{array}
+
+\date{\today}
+\author{Δημήτρης Σαριδάκης Μπίτος}
+\institute{Εθνικό Μετσόβιο Πολυτεχνείο}
+
+\def\e{\foreignlanguage{english}}
+\def\h{\e{Haskell}}
+%\newcommand\_[_]{_}
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+\begin{document}
+
+\title{Σχεδίαση και Υλοποίηση της Γλώσσας Προγραμματισμού \e{lambda-cases}}
+\frame{\titlepage}
+
+\begin{frame}
+
+\frametitle{Μ' αρέσει πολύ η \h}
+
+Τα πάντα είναι τιμές (όροι) και έχουν κάποιο τύπο:
+
+\begin{itemize}
+
+\item Σταθερές
+\item Συναρτήσεις
+\item Είσοδος/Έξοδος
+
+% \pause
+\begin{itemize}
+
+\item Άρα μπορούν να είναι ορίσματα συναρτήσεων, στοιχεία λίστας κτλ
+\\~\
+\end{itemize}
+
+\end{itemize}
+
+% \pause
+Οι τύποι τα λένε όλα.
+\\~\
+
+% \pause
+Βοηθητικός μεταγλωττιστής:
+
+\begin{itemize}
+
+\item Μεταγλωττίζεται? Δουλεύει! (Συνήθως)
+
+\item Δεν μεταγλωττίζεται? Οι τάδε τύποι δεν ταιριάζουν.
+\\~\
+
+\end{itemize}
+
+% \pause
+Γιατί να γράψω κώδικα σε άλλη γλώσσα?
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Γιατί δεν είναι η πιο διαδεδομένη γλώσσα?}
+
+\e{Building} εργαλεία όχι τόσο καλά:
+
+\begin{itemize}
+
+\item Φαίνεται να υπάρχει βελτίωση (απ'όσο λένε \e{online})
+
+\item Δεν αφορά την διπλωματική
+\\~\
+
+\end{itemize}
+
+% \pause
+
+Δύσκολη στην εκμάθηση για αρχάριο. Ίσως παίζουν ρόλο:
+
+\begin{itemize}
+
+\item Όχι πολύ περιγραφικές λέξεις κλειδιά
+
+\item Όχι πολύ περιγραφικά ονόματα βασικών συναρτήσεων
+
+\item Γραμματική λάμδα λογισμού
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Τι θα άλλαζα για μένα?}
+
+Μπορούν να συμπτυχθούν κομμάτια που γράφω πολύ συχνά?
+\begin{itemize}
+
+\item Ορισμοί Τιμών
+
+\item \e{LambdaCase extension}
+\\~\
+
+\end{itemize}
+
+Μπορούν να αλλάξουν κομμάτια ώστε να μοιάζουν περισσότερο στα αντίστοιχα άλλων
+γλωσσών όπου είναι πιο κατανοητά?
+\begin{itemize}
+
+\item Τελεία για \e{attributes/members/fields}
+
+\item Εφαρμογή συνάρτησης με ορίσματα σε παρένθεση
+\\~\
+
+\end{itemize}
+
+Υπάρχει κάτι καινούργιο που θα μπορούσα να προσθέσω?
+\begin{itemize}
+
+\item Ορίσματα στην αρχή ή στην μέση του ονόματος της συνάρτησης
+
+\item Ανώνυμες Παράμετροι
+\\~\
+
+\end{itemize}
+Μπορώ να δώσω πιο κατανοητά ονόματα?
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Εφαρμογή Συνάρτησης Με Παρενθέσεις}
+
+\begin{otherlanguage}{english}
+
+\begin{center}
+\begin{tabular}{ |P{5cm}|P{5cm}| }
+ \hline
+ Haskell & lcases
+ \\
+ \hline
+ \verb|f x| & \verb|f(x)|
+ \\
+ \verb|g x y z| & \verb|g(x, y, z)|
+ \\
+ \verb|putStrLn "Hello World!"| & \verb|print("Hello World!")|
+ \\
+ \hline
+\end{tabular}
+\end{center}
+
+% \pause
+\begin{center}
+\begin{tabular}{ |P{5cm}|P{5cm}| }
+ \hline
+ \verb|show x| & \verb|(x)to_string|
+ \\
+ \verb|mod x y| & \verb|(x)mod(y)|
+ \\
+ \verb|map f l| & \verb|apply(f)to_all_in(l)|
+ \\
+ \hline
+\end{tabular}
+\end{center}
+
+\end{otherlanguage}
+Ορισμό \e{apply to all}?
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Ανώνυμες Παράμετροι}
+
+
+\begin{otherlanguage}{english}
+
+\verb|f(x, y, _)|, \verb|f x y|
+\\~\
+
+\verb|f(x, _, z)|, \verb|\y -> f x y z|
+\\~\
+
+\verb|f(_, y, z)|, \verb|\x -> f x y z|
+\\~\
+
+\verb|f(_, _, z)|, \verb|\x y -> f x y z|
+
+\end{otherlanguage}
+
+
+Παραδείγματα
+\\~\
+
+και για λίστες \e{tuples}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Ορισμοί \e{tuple\_type} και \e{postfix functions}}
+
+\e{tuple\_type} αντίστοιχα:
+
+\begin{itemize}
+
+\item \e{structs} σε \e{C}
+
+\item \e{classes} σε \e{OOP}: μόνο \e{attributes}
+
+\item \e{records} σε \h
+\\~\
+
+\end{itemize}
+
+Δημιουργείται αυτόματα ένα \e{postfix function} για κάθε \e{field}:
+
+\begin{itemize}
+
+\item Κατευθείαν με όρισμα:
+\begin{otherlanguage}{english}
+\verb|some_person.last_name|
+\end{otherlanguage}
+
+\item Συνάρτηση Μόνη της:
+\begin{otherlanguage}{english}
+\verb|_.last_name|
+\end{otherlanguage}
+
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Ορισμοί \e{tuple\_type} και \e{postfix functions}}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+tuple_type Name
+value (first_name, last_name) : String^2
+\end{verbatim}
+% \pause
+\begin{verbatim}
+awesome_guy: Name
+  = ("Leonhard", "Euler")
+\end{verbatim}
+% \pause
+\begin{verbatim}
+>>> awesome_guy.last_name
+  : String
+  = "Euler"
+\end{verbatim}
+% \pause
+\begin{verbatim}
+>>> _.last_name
+  : Name => String
+\end{verbatim}
+% \pause
+\begin{verbatim}
+>>> apply(_.last_name)to_all_in(_)
+  : ListOf(Name)s => ListOf(String)s
+\end{verbatim}
+\end{otherlanguage}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{\e{postfix functions} για \e{product type tuples}}
+
+Λίστα
+\\~\
+
+Παραδείγματα
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{\e{".change" postfix function}}
+
+Συναρτήση αλλαγής στοιχείων
+\\~\
+
+Παραδείγματα
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Ορισμοί \e{or\_type} και \e{prefix functions}}
+
+Παραδείγματα
+\\~\
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Τελεστές}
+
+Πίνακας
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Εκφράσεις Συναρτήσεων}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Εκφράσεις Συναρτήσεων \e{"cases"}}
+
+\e{pattern matching}
+\\~\
+
+\e{LambdaCase extension}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Ορισμοί Τιμών}
+
+Σύγκριση με \h
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Εκφράσεις \e{"where"}}
+Παραδείγματα
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Τύποι}
+
+Αντιστοιχία με \h
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Πατσούκλια Τύπων}
+
+\e{type} στην \h
+\\~\
+
+Παραδείγματα
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Λογική Τύπων}
+
+Μηχανισμός \e{ad hoc} πολυμορφισμού στην \e{lcases}.
+\\~\
+
+Αντιστοιχοί στα \e{type classes}.
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Ορισμοί Προτάσεων Τύπων}
+
+Ατομικές, \e{class}
+\\~\
+
+Μετονομασίας
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Θεωρήματα Τύπων}
+
+\e{instance}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Υλοποίηση \e{Parser}}
+
+Βιβλιοθήκη \e{Parsec}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Μετάφραση σε \h}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Συμπεράσματα}
+
+Τι έχει γίνει
+\\~\
+
+Τι θα ήταν καλό να γίνει
+
+\end{frame}
+
+\end{document}

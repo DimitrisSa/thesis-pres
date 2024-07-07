@@ -1,0 +1,31 @@
+
+\frametitle{Ορισμοί \e{tuple\_type} και \e{postfix functions}}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+tuple_type Name
+value (first_name, last_name) : String^2
+\end{verbatim}
+% \pause
+\begin{verbatim}
+awesome_guy: Name
+  = ("Leonhard", "Euler")
+\end{verbatim}
+% \pause
+\begin{verbatim}
+>>> awesome_guy.last_name
+  : String
+  = "Euler"
+\end{verbatim}
+% \pause
+\begin{verbatim}
+>>> _.last_name
+  : Name => String
+\end{verbatim}
+% \pause
+\begin{verbatim}
+>>> apply(_.last_name)to_all_in(_)
+  : ListOf(Name)s => ListOf(String)s
+\end{verbatim}
+\end{otherlanguage}
+
