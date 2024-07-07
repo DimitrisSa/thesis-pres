@@ -1,25 +1,15 @@
 
-\frametitle{Ορισμοί \e{or\_type} και \e{prefix functions}}
-
+\frametitle{Πατσούκλια Τύπων}
 
 \begin{otherlanguage}{english}
 \begin{verbatim}
-or_type Bool
-values true | false
-
-or_type Possibly(T1)
-values the_value:T1 | no_value
-
-or_type Result(T1)OrError(T2)
-values result:T1 | error:T2
-
->>> the_value:1
-  : Possibly(Int)
->>> the_value:_
-  : T1 => Possibly(T1)
->>> result:1
-  : Result(Int)OrError(T1)
+type_nickname Ints = ListOf(Int)s
+type_nickname IntStringPairs = ListOf(Int x String)s
+type_nickname IO = (EmptyVal)FromIO
+type_nickname Res(T1)OrErr = Result(T1)OrError(String)
 
 \end{verbatim}
 \end{otherlanguage}
+
+\e{type} στην \h
 

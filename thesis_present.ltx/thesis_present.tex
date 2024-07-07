@@ -12,8 +12,8 @@
 
 \def\e{\foreignlanguage{english}}
 \def\h{\e{Haskell}}
-%\newcommand\_[_]{_}
 \newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
 
 \begin{document}
 
@@ -502,9 +502,65 @@ values result:T1 | error:T2
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 
 \frametitle{Τελεστές: Εφαρμογής Συνάρτησης}
+
+\begin{center}
+\begin{tabular}{ |P{2cm}|P{5cm}| }
+ \hline
+ Τελεστής & Τύπος
+ \\
+ \hline
+ \e{\texttt{->}} & \e{\texttt{T1 x (T1 => T2) => T2}}
+ \\
+ \e{\texttt{<-}} & \e{\texttt{(T1 => T2) x T1 => T2}}
+ \\
+ \hline
+\end{tabular}
+\end{center}
+
+Αποφυγή άνοιγματος και κλεισίματος πολλών παρενθέσεων σε αλυσίδα εφαρμογών.
+\\~\
+
+Το όρισμα 'μπαίνει' στην συνάρτηση.
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Τελεστές: Εφαρμογής Συνάρτησης}
+
+\begin{otherlanguage}{english}
+
+\begin{verbatim}
+apply(_)to_all_in(_)
+  : (T1 => T2) x ListOf(T1)s => ListOf(T2)s
+\end{verbatim}
+\begin{verbatim}
+length_of(_) : String => Int
+\end{verbatim}
+\begin{verbatim}
+filter(_)with(_)
+  : ListOf(T1)s x (T1 => Bool) => ListOf(T1)s
+\end{verbatim}
+\begin{verbatim}
+(_)is_odd : Int => Bool
+\end{verbatim}
+\begin{verbatim}
+sum_ints(_) : ListOf(Int)s => Int
+\end{verbatim}
+\begin{verbatim}
+strings : ListOf(String)s
+\end{verbatim}
+\begin{verbatim}
+
+chars_in_odd_length_strings : Int
+  = apply(length_of(_))to_all_in(strings) ->
+    filter(_)with((_)is_odd) ->
+    sum_ints(_)
+\end{verbatim}
+
+\end{otherlanguage}
 
 \end{frame}
 
@@ -512,55 +568,315 @@ values result:T1 | error:T2
 
 \frametitle{Τελεστές: Σύνθεσης Συναρτήσεων}
 
+\begin{center}
+\begin{tabular}{ |P{2cm}|P{8cm}| }
+ \hline
+ Τελεστής & Τύπος
+ \\
+ \hline
+ \e{\texttt{o>}} & \e{\texttt{(T1 => T2) x (T2 => T3) => (T1 => T3)}}
+ \\
+ \e{\texttt{<o}} & \e{\texttt{(T2 => T3) x (T1 => T2) => (T1 => T3)}}
+ \\
+ \hline
+\end{tabular}
+\end{center}
+
+Γιατί να γράφεις παραμέτρους όταν μπορείς να κάνεις σύνθεση?
+\\~\
+
+Μοιάζουν με σύνθεση στα μαθηματικά.
+\\~\
+
+'Δείχνουν' από πρώτη συνάρτηση σε δεύτερη.
+\\~\
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Τελεστές: Σύνθεσης Συναρτήσεων}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+split(_)to_words : String => ListOf(String)s
+
+apply(_)to_all_in(_)
+  : (T1 => T2) x ListOf(T1)s => ListOf(T2)s
+
+reverse_str(_) : String => String
+
+merge_words(_) : ListOf(String)s => String
+
+
+reverse_words_in(_) : String => String
+  = split(_)to_words o>
+    apply(reverse_str(_))to_all_in(_) o>
+    merge_words(_)
+\end{verbatim}
+\end{otherlanguage}
+
 \end{frame}
 
 \begin{frame}
 
 \frametitle{Τελεστές: Αριθμητικοί}
 
+\begin{center}
+\begin{tabular}{ |P{1.5cm}|P{8.9cm}| }
+ \hline
+ Τελεστής & Τύπος
+ \\
+ \hline
+ \e{\texttt{\^}} & \e{\texttt{(@A)To\_The(@B)Is(@C) --> @A x @B => @C}}
+ \\
+ \e{\texttt{*}} & \e{\texttt{(@A)And(@B)Multiply\_To(@C) --> @A x @B => @C}}
+ \\
+ \e{\texttt{/}} & \e{\texttt{(@A)Divided\_By(@B)Is(@C) --> @A x @B => @C}}
+ \\
+ \e{\texttt{+}} & \e{\texttt{(@A)And(@B)Add\_To(@C) --> @A x @B => @C}}
+ \\
+ \e{\texttt{-}} & \e{\texttt{(@A)Minus(@B)Is(@C) --> @A x @B => @C}}
+ \\
+ \hline
+\end{tabular}
+\end{center}
+
+Ότι περιμένει κανείς για τους στάνταρ τύπους.
+\\~\
+
+Γενικευμένοι για κόλπα \e{python} (κρατώντας την σιγουριά τύπων!).
+\\~\
+
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
+
+\frametitle{Τελεστές: Αριθμητικοί}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+>>> 'a' + 'b'
+  = "ab"
+>>> 'w' + "ord"
+  = "word"
+>>> "Hello " + "World!"
+  : String
+  = "Hello World!"
+>>> 5 * 'a'
+  : String
+  = "aaaaa"
+>>> 5 * "hi"
+  : String
+  = "hihihihihi"
+>>> "1,2,3" - ','
+  : String
+  = "123"
+\end{verbatim}
+\end{otherlanguage}
+
+\end{frame}
+
+\begin{frame}[fragile]
 
 \frametitle{Τελεστές: Σχεσιακοί και Λογικοί}
 
+\begin{center}
+\begin{tabular}{ |P{0.8cm}|P{9.4cm}| }
+ \hline
+ \e{Op} & Τύπος
+ \\
+ \hline
+ \e{\texttt{==}} & \e{\texttt{(@A)And(@B)Can\_Be\_Equal --> @A x @B => Bool}}
+ \\
+ \e{\texttt{!=}} & \e{\texttt{(@A)And(@B)Can\_Be\_Unequal --> @A x @B => Bool}}
+ \\
+ \e{\texttt{>}} & \e{\texttt{(@A)Can\_Be\_Greater\_Than(@B) --> @A x @B => Bool}}
+ \\
+ \e{\texttt{<}} & \e{\texttt{(@A)Can\_Be\_Less\_Than(@B) --> @A x @B => Bool}}
+ \\
+ \e{\texttt{>=}} & \e{\texttt{(@A)Can\_Be\_Gr\_Or\_Eq\_To(@B) --> @A x @B => Bool}}
+ \\
+ \e{\texttt{<=}} & \e{\texttt{(@A)Can\_Be\_Le\_Or\_Eq\_To(@B) --> @A x @B => Bool}}
+ \\
+ \e{\texttt{\&}} & \e{\texttt{(@A)Has\_And --> @A}\texttt{\^}\texttt{2 => @A}}
+ \\
+ \e{\texttt{|}} & \e{\texttt{(@A)Has\_Or --> @A}\texttt{\^}\texttt{2 => @A}}
+ \\
+ \hline
+\end{tabular}
+\end{center}
+
+Μπορούν να συγκριθούν διαφορετικοί τύποι.
+\\~\
+
+Τελεστές 'και' και 'ή' πολυμορφικοί για να χρησιμοποιούνται και για
+\e{bitwise operations}.
+\\~\
+
+\e{todo slide} με παραδείγματα
 \end{frame}
 
 \begin{frame}
 
 \frametitle{Τελεστές: Περιβάλλοντος}
 
+\begin{center}
+\begin{tabular}{ |P{0.4cm}|P{9.9cm}| }
+ \hline
+ \e{Op} & Τύπος
+ \\
+ \hline
+ \e{\texttt{;>}} & \e{\texttt{(@E)Has\_Use --> @E(T1) x (T1 => @E(T2)) => @E(T2)}}
+ \\
+ \e{\texttt{;}} & \e{\texttt{(@E)Has\_Then --> @E(T1) x @E(T2) => @E(T2)}}
+ \\
+ \hline
+\end{tabular}
+\\~\
+\\~\
+\end{center}
+
+Για συνδιασμούς δράσεων σε περιβάλλον (\e{IO, State} κτλ).
+\\~\
+
+Αντιστοιχούν στους \e{operators "bind"} και \e{"then"} των \e{Monads}.
+
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
+
+\frametitle{Τελεστές: Περιβάλλοντος}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+main: (EmptyVal)FromIO
+  = print("I'll repeat the line") ; get_line ;> print(_)
+\end{verbatim}
+\end{otherlanguage}
+κτλ
+
+slide με ανώνυμη παράμετρο σε έκφραση τελεστών 42 κτλ
+\end{frame}
+
+\begin{frame}[fragile]
 
 \frametitle{Εκφράσεις Συναρτήσεων}
 
+\begin{otherlanguage}{english}
+\begin{verbatim}
+a => 17 * a + 42
+(x, y, z) => sqrt(x^2 + y^2 + z^2)
+\end{verbatim}
+\end{otherlanguage}
+Αστερίσκος για παραμέτρους που δεν έχουν σημασία
+\begin{otherlanguage}{english}
+\begin{verbatim}
+* => 42
+(x, *, z) => x + z
+\end{verbatim}
+\end{otherlanguage}
+\e{Matching} σε παραμέτρους \e{tuples}
+\begin{otherlanguage}{english}
+\begin{verbatim}
+((x1, y1), (x2, y2)) => (x1 + x2, y1 + y2)
+\end{verbatim}
+\end{otherlanguage}
+
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 
 \frametitle{Εκφράσεις Συναρτήσεων \e{"cases"}}
 
-\e{pattern matching}
-\\~\
+\begin{otherlanguage}{english}
+\begin{verbatim}
+(_)is_forty_two: Int => Bool
+  = cases
+    42 => true
+    ... => false
 
-\e{LambdaCase extension}
+gcd_of(_)and(_): Int^2 => Int
+  = (x, cases)
+    0 => x
+    y => gcd_of(y)and((x)mod(y))
+
+traffic_lights_match(_, _): TrafficLight^2 => Bool
+  = (cases, cases)
+    (green, green) => true
+    (amber, amber) => true
+    (red, red) => true
+    ... => false
+\end{verbatim}
+\end{otherlanguage}
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
+
+\frametitle{Εκφράσεις Συναρτήσεων \e{"cases"}}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+apply(_)to_all_in(_)
+  : (T1 => T2) x ListOf(T1)s => ListOf(T2)s
+  = (f(_), cases)
+    [] => []
+    [head, tail = ...] =>
+      f(head) + apply(f(_))to_all_in(tail)
+
+(_)is_sorted: ListOf(Int)s => Bool
+  = cases
+    [x1, x2, xs = ...] => (x1 <= x2) & (x2 + xs)is_sorted
+    ... => true
+\end{verbatim}
+\end{otherlanguage}
+
+\end{frame}
+
+\begin{frame}[fragile]
 
 \frametitle{Ορισμοί Τιμών}
 
-Σύγκριση με \h
+\begin{otherlanguage}{english}
+\begin{verbatim}
+foo: Int
+  = 1
+\end{verbatim}
+\end{otherlanguage}
+Ομαδοποίηση ορισμών:
+\begin{otherlanguage}{english}
+\begin{verbatim}
+val1, val2, val3: Int, Bool, Char
+  = 2, true, 'a'
+\end{verbatim}
+\end{otherlanguage}
+Λέξη κλειδί \e{"all"}:
+\begin{otherlanguage}{english}
+\begin{verbatim}
+int1, int2, int3: all Int
+  = 1, 2, 3
+\end{verbatim}
+\end{otherlanguage}
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 
-\frametitle{Εκφράσεις \e{"where"}}
-Παραδείγματα
+\frametitle{Εκφράσεις με \e{"where"}}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+sort(_): ListOf(Int)s => ListOf(Int)s
+  = cases
+    [] => []
+    [head, tail = ...] =>
+      sort(less_l) + head + sort(greater_l)
+      where
+      less_l, greater_l: all ListOf(Int)s
+        = filter(tail)with(_ <= head)
+        , filter(tail)with(_ > head)
+\end{verbatim}
+\end{otherlanguage}
 
 \end{frame}
 
@@ -568,18 +884,75 @@ values result:T1 | error:T2
 
 \frametitle{Τύποι}
 
-Αντιστοιχία με \h
+\begin{center}
+\begin{tabular}{ |M{2.5cm}|M{3cm}|M{4.3cm}| }
+ \hline
+ & \e{lcases} & \h
+ \\
+ \hline
+ Παραμετρικές μεταβλητές τύπων & T1 T2 T3 & \e{a b c}
+ \\
+ \hline
+ \e{Ad hoc} μεταβλητές τύπων & \e{@A @B @C} & \e{a b c}
+ \\
+ \hline
+ Τύποι εφαρμογής συνάρτησης τύπου & \e{Possibly(Int)} & \e{Maybe Int}
+ \\
+ \hline
+ Τύποι γινόμενα & \e{Int x Real x String} & \e{(Int, Double, String)}
+ \\
+ \hline
+ Τύποι δύναμης & \e{\texttt{Int\^}}\e{3} & \e{(Int, Int, Int)}
+ \\
+ \hline
+ Τύποι συνάρτησης & \e{\texttt{Int => Int}} & \e{\texttt{Int -> Int}}
+ \\
+ \hline
+\end{tabular}
+\end{center}
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
+
+\frametitle{Τύποι με προϋπόθεση}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+(@A)And(@B)Add_To(@C) --> @A x @B => @C
+
+(@A)Is(@B)s_First --> @B => @A
+
+(@E)Has_Use --> @E(T1) x (T1 => @E(T2)) => @E(T2)
+
+\end{verbatim}
+\h
+\begin{verbatim}
+Add a b c => a -> b -> c
+
+Show a => a -> String
+
+Monad m => m a -> (a -> m b) -> m b
+\end{verbatim}
+\end{otherlanguage}
+
+\end{frame}
+
+\begin{frame}[fragile]
 
 \frametitle{Πατσούκλια Τύπων}
 
-\e{type} στην \h
-\\~\
+\begin{otherlanguage}{english}
+\begin{verbatim}
+type_nickname Ints = ListOf(Int)s
+type_nickname IntStringPairs = ListOf(Int x String)s
+type_nickname IO = (EmptyVal)FromIO
+type_nickname Res(T1)OrErr = Result(T1)OrError(String)
 
-Παραδείγματα
+\end{verbatim}
+\end{otherlanguage}
+
+\e{type} στην \h
 
 \end{frame}
 
@@ -590,7 +963,7 @@ values result:T1 | error:T2
 Μηχανισμός \e{ad hoc} πολυμορφισμού στην \e{lcases}.
 \\~\
 
-Αντιστοιχοί στα \e{type classes}.
+Αντιστοιχεί στα \e{type classes (MultiParamTypeClasses extension)}.
 
 \end{frame}
 
