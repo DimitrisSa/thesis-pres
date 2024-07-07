@@ -124,10 +124,10 @@
 \item Ορίσματα στην αρχή ή στην μέση του ονόματος της συνάρτησης
 
 \item Ανώνυμες Παράμετροι
-\\~\
+
+\item Τύποι Δύναμης
 
 \end{itemize}
-Μπορώ να δώσω πιο κατανοητά ονόματα?
 
 \end{frame}
 
@@ -151,9 +151,15 @@
  \\
  \hline
 \end{tabular}
+\\~\
+\\~\
 \end{center}
 
+\end{otherlanguage}
+
 % \pause
+Ορίσματα πριν ή στην μέση:
+\begin{otherlanguage}{english}
 \begin{center}
 \begin{tabular}{ |P{5cm}|P{5cm}| }
  \hline
@@ -166,9 +172,7 @@
  \hline
 \end{tabular}
 \end{center}
-
 \end{otherlanguage}
-Ορισμό \e{apply to all}?
 
 \end{frame}
 
@@ -176,27 +180,126 @@
 
 \frametitle{Ανώνυμες Παράμετροι}
 
+Σε οποιαδήποτε συνάρτηση μπορούν να λείπουν οποιαδήποτε από τα ορίσματα:
+κάτω παύλα.
+\\~\
+
+Τα υπόλοιπα είναι παράμετροι.
+\\~\
+
+Νέα συνάρτηση με είσοδο τα κενά ορίσματα.
+\begin{otherlanguage}{english}
+\begin{center}
+\begin{tabular}{ |P{5cm}|P{5cm}| }
+ \hline
+ \verb|f(_, 1.61, 42)| & \verb|x => f(x, 1.61, 42)|
+ \\
+ \verb|f(3.14, _, 42)| & \verb|x => f(3.14, x, 42)|
+ \\
+ \verb|f(_, 1.61, _)| & \verb|(x, y) => f(x, 1.61, y)|
+ \\
+ \hline
+\end{tabular}
+\end{center}
+\end{otherlanguage}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Ανώνυμες Παράμετροι}
 
 \begin{otherlanguage}{english}
 
-\verb|f(x, y, _)|, \verb|f x y|
-\\~\
+\begin{verbatim}
+greetings : ListOf(String)s
+  = ["hey!", "hello!", "hi!"]
+\end{verbatim}
+\begin{verbatim}
+length_of(_) : String => Int
+\end{verbatim}
+\begin{verbatim}
+apply(_)to_all_in(_)
+  : (T1 => T2) x ListOf(T1)s => ListOf(T2)s
 
-\verb|f(x, _, z)|, \verb|\y -> f x y z|
-\\~\
 
-\verb|f(_, y, z)|, \verb|\x -> f x y z|
-\\~\
-
-\verb|f(_, _, z)|, \verb|\x y -> f x y z|
+\end{verbatim}
+\begin{verbatim}
+apply(length_of(_))to_all_in(_)
+  : ListOf(String)s => ListOf(Int)s
+\end{verbatim}
+\begin{verbatim}
+apply(_)to_all_in(greetings)
+  : (String => T1) => ListOf(T1)s
+\end{verbatim}
+\begin{verbatim}
+>>> apply(length_of(_))to_all_in(greetings)
+  : ListOf(Int)s
+  = [4, 6, 3]
+\end{verbatim}
 
 \end{otherlanguage}
 
+\end{frame}
 
-Παραδείγματα
+\begin{frame}[fragile]
+
+\frametitle{Το ίδιο σε \h}
+
+\begin{otherlanguage}{english}
+
+\begin{verbatim}
+greetings :: [String]
+greetings = ["hey!", "hello!", "hi!"]
+\end{verbatim}
+\begin{verbatim}
+length :: String => Int
+\end{verbatim}
+\begin{verbatim}
+map :: (a -> b) -> [a] -> [b]
+
+\end{verbatim}
+\begin{verbatim}
+map length :: [String] -> [Int]
+\end{verbatim}
+\begin{verbatim}
+flip map :: [a] -> (a -> b) -> [b]
+\end{verbatim}
+\begin{verbatim}
+flip map greetings :: (String -> a) -> [a]
+\end{verbatim}
+\begin{verbatim}
+>>> map length greetings
+  = [4, 6, 3]
+\end{verbatim}
+
+\end{otherlanguage}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Ανώνυμες Παράμετροι: \e{tuples} και λίστες}
+
+Αντίστοιχα μπορούμε να αφήσουμε κενά στοιχεία \e{tuple} ή λίστας.
 \\~\
 
-και για λίστες \e{tuples}
+Νέα συνάρτηση με είσοδο τα κενά στοιχεία.
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+(42, _) : T1 => Int x T1
+
+(_, 3.14, _) : T1 x T2 => T1 x Real x T2
+
+[42, _] : Int => ListOf(Int)s
+
+[_, 3.14, _] : Real^2 => ListOf(Real)s
+
+\end{verbatim}
+\end{otherlanguage}
+
+Αντίστοιχα σε εκφράσεις τελεστών: παρακάτω.
 
 \end{frame}
 
@@ -269,41 +372,163 @@ awesome_guy: Name
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 
-\frametitle{\e{postfix functions} για \e{product type tuples}}
+\frametitle{\e{postfix functions} για \e{tuples} που έχουν τύπο γινόμενο}
 
-Λίστα
+\begin{otherlanguage}{english}
+"\verb|_.1st|", "\verb|_.2nd|", "\verb|_.3rd|", ...
+\end{otherlanguage}
+για \e{tuples} που έχουν τύπο γινόμενο.
 \\~\
 
-Παραδείγματα
+\begin{otherlanguage}{english}
+\begin{verbatim}
+tuple : Real x String
+  = (1.618, "golden ratio")
+\end{verbatim}
+
+\begin{verbatim}
+origin : Real^3
+  = (0, 0, 0)
+\end{verbatim}
+
+\begin{verbatim}
+>>> tuple.2nd
+  = "golden ratio"
+\end{verbatim}
+
+\begin{verbatim}
+>>> origin.2nd
+  = 0
+
+\end{verbatim}
+\end{otherlanguage}
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 
 \frametitle{\e{".change" postfix function}}
 
-Συναρτήση αλλαγής στοιχείων
-\\~\
+Συναρτήση αλλαγής στοιχείων \e{tuple}
 
-Παραδείγματα
+\begin{otherlanguage}{english}
+\begin{verbatim}
+state.change{counter = counter + 1}
+point.change{z = 2.718}
+
+tuples : ListOf(Int^2)s
+  = [(1, 2), (3, 4), (5, 6)]
+>>> apply(_.change{1st = 1st + 1})to_all_in(tuples)
+  = [(2, 2), (4, 4), (6, 6)]
+
+name : Name
+  = ("Jacob", "Bernoulli")
+change_first_name_to(_) : String => Name
+  = name.change{first_name = _}
+>>> change_first_name_to("Daniel")
+  = ("Daniel", "Bernoulli")
+\end{verbatim}
+\end{otherlanguage}
+
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 
 \frametitle{Ορισμοί \e{or\_type} και \e{prefix functions}}
 
-Παραδείγματα
+\e{or\_type} αντίστοιχα:
+
+\begin{itemize}
+
+\item \e{C, C++} κτλ: \e{enum types} αλλά πιο γενικά
+
+\item \h:
+τα πάντα είναι \e{data}, συμπεριλαμβάνουν \e{tuple types}, \e{or types}
 \\~\
+
+\end{itemize}
+
+Οι τιμές τους χωρίζονται σε περιπτώσεις (με ή χωρίς εσωτερικές τιμές).
+\\~\
+
+Δημιουργείται αυτόματα ένα \e{prefix function} για κάθε περίπτωση με εσωτερική
+τιμή:
+
+\begin{itemize}
+
+\item Κατευθείαν με όρισμα:
+\begin{otherlanguage}{english}
+\verb|the_value:1|
+\end{otherlanguage}
+
+\item Συνάρτηση Μόνη της:
+\begin{otherlanguage}{english}
+\verb|the_value:_|
+\\~\
+\end{otherlanguage}
+
+\end{itemize}
+\e{Pattern matching} με συνάρτηση \e{"cases"}.
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Ορισμοί \e{or\_type} και \e{prefix functions}}
+
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+or_type Bool
+values true | false
+
+or_type Possibly(T1)
+values the_value:T1 | no_value
+
+or_type Result(T1)OrError(T2)
+values result:T1 | error:T2
+
+>>> the_value:1
+  : Possibly(Int)
+>>> the_value:_
+  : T1 => Possibly(T1)
+>>> result:1
+  : Result(Int)OrError(T1)
+
+\end{verbatim}
+\end{otherlanguage}
 
 \end{frame}
 
 \begin{frame}
 
-\frametitle{Τελεστές}
+\frametitle{Τελεστές: Εφαρμογής Συνάρτησης}
 
-Πίνακας
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Τελεστές: Σύνθεσης Συναρτήσεων}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Τελεστές: Αριθμητικοί}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Τελεστές: Σχεσιακοί και Λογικοί}
+
+\end{frame}
+
+\begin{frame}
+
+\frametitle{Τελεστές: Περιβάλλοντος}
 
 \end{frame}
 
