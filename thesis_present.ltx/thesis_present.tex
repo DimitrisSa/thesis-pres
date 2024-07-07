@@ -967,20 +967,77 @@ type_nickname Res(T1)OrErr = Result(T1)OrError(String)
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
 
-\frametitle{Ορισμοί Προτάσεων Τύπων}
+\frametitle{Ορισμοί Ατομικών Προτάσεων Τύπων}
 
-Ατομικές, \e{class}
-\\~\
+\begin{otherlanguage}{english}
+\begin{verbatim}
+type_proposition (@T)Has_Str_Rep
+needed (_)to_string: @T => String
 
-Μετονομασίας
+type_proposition (@T)Has_A_Wrapper
+needed wrap(_): T1 => @T(T1)
+
+type_proposition (@T)Has_Internal_App
+needed apply(_)inside(_) : (T1 => T2) x @T(T1) => @T(T2)
+
+
+wrap(_): (@T)Has_A_Wrapper --> T1 => @T(T1)
+
+(_)to_string: (@T)Has_Str_Rep --> @T => String
+
+apply(_)inside(_)
+  : (@T)Has_Internal_App --> (T1 => T2) x @T(T1) => @T(T2)
+\end{verbatim}
+\end{otherlanguage}
 
 \end{frame}
 
-\begin{frame}
+\begin{frame}[fragile]
+
+\frametitle{Ορισμοί Προτάσεων Τύπων Μετονομασίας}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+type_proposition (@T)Has_Equality
+equivalent (@T)And(@T)Can_Be_Equal
+
+type_proposition (@A)And(@B)Are_Comparable
+equivalent
+  (@A)Can_Be_Less_Than(@B), (@A)And(@B)Can_Be_Equal,
+  (@A)Can_Be_Greater_Than(@B)
+
+type_proposition (@T)Has_Comparison
+equivalent (@T)And(@T)Are_Comparable
+\end{verbatim}
+\end{otherlanguage}
+
+\end{frame}
+
+\begin{frame}[fragile]
 
 \frametitle{Θεωρήματα Τύπων}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+type_theorem (Possibly(_))Has_A_Wrapper
+proof wrap(_) = the_value:_
+
+type_theorem (ListOf(_)s)Has_A_Wrapper
+proof wrap(_) = [_]
+
+type_theorem (Possibly(_))Has_Internal_App
+proof
+  apply(_)inside(_) =
+    (f(_), cases)
+      no_value => no_value
+      the_value:x => the_value:f(x)
+
+type_theorem (ListOf(_)s)Has_Internal_App
+proof apply(_)inside(_) = apply(_)to_all_in(_)
+\end{verbatim}
+\end{otherlanguage}
 
 \e{instance}
 
@@ -990,13 +1047,22 @@ type_nickname Res(T1)OrErr = Result(T1)OrError(String)
 
 \frametitle{Υλοποίηση \e{Parser}}
 
-Βιβλιοθήκη \e{Parsec}
+Βιβλιοθήκη \e{Parsec}.
 
+\begin{itemize}
+\item \e{Parser Combinator} Βιβλιοθήκη
+\item \e{Context-sensitive, Infinite look-ahead} γραμματικές
+\\~\
+\end{itemize}
+
+Βουτιά στον κώδικα (αν υπάρχει χρόνος).
 \end{frame}
 
 \begin{frame}
 
 \frametitle{Μετάφραση σε \h}
+
+Βουτιά στον κώδικα (αν υπάρχει χρόνος).
 
 \end{frame}
 
@@ -1004,10 +1070,30 @@ type_nickname Res(T1)OrErr = Result(T1)OrError(String)
 
 \frametitle{Συμπεράσματα}
 
-Τι έχει γίνει
+Τι έχει γίνει:
+\begin{itemize}
+\item σχεδίαση της γλώσσας
+
+\item μόνο μετάφραση σε \h
+
+\item λάθος συντακτικά:
+\\\e{parser error} (αναφέρεται στο \e{lcases} αρχείο)
+
+\item άλλο λάθος:
+\\\e{error} από τον \e{compiler} της \h\ που αφορά την μετάφραση
+
+\item σωστό:
+\\ μεταφράζεται σε \h\ και γίνεται \e{compile} με τον \e{ghc}
 \\~\
 
-Τι θα ήταν καλό να γίνει
+\end{itemize}
+
+Μελλοντικά
+\begin{itemize}
+\item ok
+\\~\
+
+\end{itemize}
 
 \end{frame}
 

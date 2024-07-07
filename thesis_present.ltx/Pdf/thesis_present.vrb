@@ -1,15 +1,25 @@
 
-\frametitle{Πατσούκλια Τύπων}
+\frametitle{Θεωρήματα Τύπων}
 
 \begin{otherlanguage}{english}
 \begin{verbatim}
-type_nickname Ints = ListOf(Int)s
-type_nickname IntStringPairs = ListOf(Int x String)s
-type_nickname IO = (EmptyVal)FromIO
-type_nickname Res(T1)OrErr = Result(T1)OrError(String)
+type_theorem (Possibly(_))Has_A_Wrapper
+proof wrap(_) = the_value:_
 
+type_theorem (ListOf(_)s)Has_A_Wrapper
+proof wrap(_) = [_]
+
+type_theorem (Possibly(_))Has_Internal_App
+proof
+  apply(_)inside(_) =
+    (f(_), cases)
+      no_value => no_value
+      the_value:x => the_value:f(x)
+
+type_theorem (ListOf(_)s)Has_Internal_App
+proof apply(_)inside(_) = apply(_)to_all_in(_)
 \end{verbatim}
 \end{otherlanguage}
 
-\e{type} στην \h
+\e{instance}
 
