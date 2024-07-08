@@ -8,7 +8,11 @@
 
 \date{\today}
 \author{Δημήτρης Σαριδάκης Μπίτος}
-\institute{Εθνικό Μετσόβιο Πολυτεχνείο}
+\institute{
+Σχολή Ηλεκτρολόγων Μηχανικών και Μηχανικών Υπολογιστών
+\\
+Εθνικό Μετσόβιο Πολυτεχνείο
+}
 
 \def\e{\foreignlanguage{english}}
 \def\h{\e{Haskell}}
@@ -133,7 +137,7 @@
 
 \begin{frame}[fragile]
 
-\frametitle{Εφαρμογή Συνάρτησης Με Παρενθέσεις}
+\frametitle{Εφαρμογή Συνάρτησης με Παρενθέσεις}
 
 \begin{otherlanguage}{english}
 
@@ -409,7 +413,7 @@ origin : Real^3
 
 \frametitle{\e{".change" postfix function}}
 
-Συναρτήση αλλαγής στοιχείων \e{tuple}
+Συνάρτηση αλλαγής στοιχείων \e{tuple}
 
 \begin{otherlanguage}{english}
 \begin{verbatim}
@@ -443,7 +447,7 @@ change_first_name_to(_) : String => Name
 \item \e{C, C++} κτλ: \e{enum types} αλλά πιο γενικά
 
 \item \h:
-τα πάντα είναι \e{data}, συμπεριλαμβάνουν \e{tuple types}, \e{or types}
+τα πάντα είναι \e{data}, συμπεριλαμβανομένων των \e{tuple types}, \e{or types}
 \\~\
 
 \end{itemize}
@@ -461,7 +465,7 @@ change_first_name_to(_) : String => Name
 \verb|the_value:1|
 \end{otherlanguage}
 
-\item Συνάρτηση Μόνη της:
+\item Συνάρτηση μόνη της:
 \begin{otherlanguage}{english}
 \verb|the_value:_|
 \\~\
@@ -520,7 +524,7 @@ values result:T1 | error:T2
 \\~\
 \end{center}
 
-Αποφυγή άνοιγματος και κλεισίματος πολλών παρενθέσεων σε αλυσίδα εφαρμογών.
+Αποφυγή ανοίγματος και κλεισίματος πολλών παρενθέσεων σε αλυσίδα εφαρμογών.
 \\~\
 
 Το όρισμα 'μπαίνει' στην συνάρτηση.
@@ -719,7 +723,6 @@ reverse_words_in(_) : String => String
 \e{bitwise operations}.
 \\~\
 
-\e{todo slide} με παραδείγματα
 \end{frame}
 
 \begin{frame}
@@ -804,7 +807,7 @@ prepend : String => String
 \end{verbatim}
 
 \begin{verbatim}
->> apply(prepend o> (42, _))to_all_in(important_stuff)
+>>> apply(prepend o> (42, _))to_all_in(important_stuff)
   = [ (42, "The answer to the Ultimate Question of Life")
     , (42, "The answer to the Universe")
     , (42, "The answer to Everything")
@@ -1020,7 +1023,7 @@ sum_nodes(_): TreeOf(Int)s => Int
 
 \begin{frame}[fragile]
 
-\frametitle{Πατσούκλια Τύπων}
+\frametitle{Παρατσούκλια Τύπων}
 
 \begin{otherlanguage}{english}
 \begin{verbatim}
@@ -1072,34 +1075,11 @@ needed wrap(_): T1 => @T(T1)
 type_proposition (@T)Has_Internal_App
 needed apply(_)inside(_) : (T1 => T2) x @T(T1) => @T(T2)
 
-
 (_)to_string: (@T)Has_Str_Rep --> @T => String
-
 wrap(_): (@T)Has_A_Wrapper --> T1 => @T(T1)
-
 apply(_)inside(_)
-  : (@T)Has_Internal_App --> (T1 => T2) x @T(T1) => @T(T2)
-\end{verbatim}
-\end{otherlanguage}
-
-\end{frame}
-
-\begin{frame}[fragile]
-
-\frametitle{Ορισμοί Προτάσεων Τύπων Μετονομασίας}
-
-\begin{otherlanguage}{english}
-\begin{verbatim}
-type_proposition (@T)Has_Equality
-equivalent (@T)And(@T)Can_Be_Equal
-
-type_proposition (@A)And(@B)Are_Comparable
-equivalent
-  (@A)Can_Be_Less_Than(@B), (@A)And(@B)Can_Be_Equal,
-  (@A)Can_Be_Greater_Than(@B)
-
-type_proposition (@T)Has_Comparison
-equivalent (@T)And(@T)Are_Comparable
+  : (@T)Has_Internal_App -->
+    (T1 => T2) x @T(T1) => @T(T2)
 \end{verbatim}
 \end{otherlanguage}
 
@@ -1158,6 +1138,56 @@ l1, l2, l3 : all ListOf(Int)s
 
 \end{frame}
 
+\begin{frame}[fragile]
+
+\frametitle{Ορισμοί Προτάσεων Τύπων Μετονομασίας}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+type_proposition (@T)Has_Equality
+equivalent (@T)And(@T)Can_Be_Equal
+
+type_proposition (@A)And(@B)Are_Comparable
+equivalent
+  (@A)Can_Be_Less_Than(@B), (@A)And(@B)Can_Be_Equal,
+  (@A)Can_Be_Greater_Than(@B)
+
+type_proposition (@T)Has_Comparison
+equivalent (@T)And(@T)Are_Comparable
+\end{verbatim}
+\end{otherlanguage}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Θεωρήματα Συνεπαγωγής}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+type_theorem
+  (@A)And(@B)Can_Be_Equal --> (@A)And(@B)Can_Be_Unequal
+proof a \= b = not(a == b)
+
+type_theorem
+  (@A)Can_Be_Greater_Than(@B) -->
+  (@A)Can_Be_Le_Or_Eq_To(@B)
+proof a <= b = not(a > b)
+
+type_proposition (@A)And(@B)Have_Eq_And_Gr
+equivalent
+  (@A)And(@B)Can_Be_Equal, (@A)Can_Be_Greater_Than(@B)
+
+type_theorem
+  (@A)And(@B)Have_Eq_And_Gr -->
+  (@A)Can_Be_Gr_Or_Eq_To(@B)
+proof a >= b = a == b | a > b
+
+\end{verbatim}
+\end{otherlanguage}
+
+\end{frame}
+
 \begin{frame}
 
 \frametitle{Υλοποίηση \e{Parser} και Μετάφραση σε \h}
@@ -1192,28 +1222,53 @@ l1, l2, l3 : all ListOf(Int)s
 
 \frametitle{Συμπεράσματα}
 
-Τι έχει γίνει:
+Έχει γίνει:
 \begin{itemize}
-\item σχεδίαση της γλώσσας
+\item Σχεδίαση της γλώσσας
 
-\item μόνο μετάφραση σε \h
+\begin{itemize}
+\item Γραμματική με \e{indentation} σύστημα
 
-\item λάθος συντακτικά:
-\\\e{parser error} (αναφέρεται στο \e{lcases} αρχείο)
+\item Ορισμοί
 
-\item άλλο λάθος:
-\\\e{error} από τον \e{compiler} της \h\ που αφορά την μετάφραση
+\end{itemize}
 
-\item σωστό:
-\\ μεταφράζεται σε \h\ και γίνεται \e{compile} με τον \e{ghc}
+\item Μετάφραση σε \h
 \\~\
 
 \end{itemize}
 
-Μελλοντικά
+Μελλοντικά:
 \begin{itemize}
-\item ok
-\\~\
+\item \e{Semantic analysis}
+
+\begin{itemize}
+
+\item \e{Scoping} σφάλματα
+
+\item Σύστημα Τύπων ενσωματομένο
+
+\end{itemize}
+
+\item \e{Interpreter/REPL}
+
+\begin{itemize}
+
+\item \e{Evaluation}
+
+\item \e{Type info}
+
+\item Πληροφορίες σχετικά με \e{Ah Hoc} πολυμορφισμό
+
+\begin{itemize}
+
+\item Χρήση \e{Prolog}?
+
+\end{itemize}
+
+\end{itemize}
+
+\item Βιβλιοθήκες, \e{Documentation} κτλ
 
 \end{itemize}
 

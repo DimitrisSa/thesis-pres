@@ -1,24 +1,26 @@
 
-\frametitle{Χρήση Των \e{Ad Hoc} Πολυμορφικών Συναρτήσεων}
+\frametitle{Θεωρήματα Συνεπαγωγής}
 
 \begin{otherlanguage}{english}
 \begin{verbatim}
-a, b : all Possibly(Int)
-  = wrapper(1), no_value
-l1, l2, l3 : all ListOf(Int)s
-  = wrapper(1), [], [1, 2, 3]
+type_theorem
+  (@A)And(@B)Can_Be_Equal --> (@A)And(@B)Can_Be_Unequal
+proof a \= b = not(a == b)
 
->>> a                        >>> l1
-  = the_value:1                = [1]
+type_theorem
+  (@A)Can_Be_Greater_Than(@B) -->
+  (@A)Can_Be_Le_Or_Eq_To(@B)
+proof a <= b = not(a > b)
 
->>> apply(_ + 1)inside(a)    >>> apply(_ + 1)inside(b)
-  = the_value:2                = no_value
+type_proposition (@A)And(@B)Have_Eq_And_Gr
+equivalent
+  (@A)And(@B)Can_Be_Equal, (@A)Can_Be_Greater_Than(@B)
 
->>> apply(_ + 1)inside(l1)   >>> apply(_ + 1)inside(l2)
-  = [2]                        = []
+type_theorem
+  (@A)And(@B)Have_Eq_And_Gr -->
+  (@A)Can_Be_Gr_Or_Eq_To(@B)
+proof a >= b = a == b | a > b
 
->>> apply(_ + 1)inside(l3)
-  = [2, 3, 4]
 \end{verbatim}
 \end{otherlanguage}
 
