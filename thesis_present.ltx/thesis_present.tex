@@ -26,7 +26,7 @@
 
 \begin{frame}
 
-\frametitle{Μ' αρέσει πολύ η \h}
+\frametitle{Μου αρέσει πολύ η \h}
 
 Τα πάντα είναι τιμές και έχουν κάποιο τύπο:
 
@@ -36,7 +36,6 @@
 \item Συναρτήσεις
 \item Είσοδος/Έξοδος
 
-% \pause
 \begin{itemize}
 
 \item Μπορούν να είναι ορίσματα συναρτήσεων, στοιχεία λίστας κτλ
@@ -45,11 +44,11 @@
 
 \end{itemize}
 
-% \pause
+\pause
 Οι τύποι τα λένε όλα.
 \\~\
 
-% \pause
+\pause
 Βοηθητικός μεταγλωττιστής:
 
 \begin{itemize}
@@ -61,7 +60,7 @@
 
 \end{itemize}
 
-% \pause
+\pause
 Γιατί να γράψω κώδικα σε άλλη γλώσσα?
 
 \end{frame}
@@ -81,7 +80,7 @@
 
 \end{itemize}
 
-% \pause
+\pause
 
 Δύσκολη στην εκμάθηση για αρχάριο. Ίσως παίζουν ρόλο:
 
@@ -101,7 +100,7 @@
 
 \frametitle{Τι θα άλλαζα για μένα?}
 
-Μπορούν να συμπτυχθούν κομμάτια που γράφω πολύ συχνά?
+Μπορούν να συμπτυχθούν κομμάτια τα οποία γράφω πολύ συχνά?
 \begin{itemize}
 
 \item Ορισμοί Τιμών
@@ -111,8 +110,9 @@
 
 \end{itemize}
 
-Μπορούν να αλλάξουν κομμάτια ώστε να μοιάζουν περισσότερο στα αντίστοιχα άλλων
-γλωσσών όπου είναι πιο κατανοητά?
+\pause
+Μπορούν να αλλάξουν κομμάτια ώστε να μοιάζουν περισσότερο στα πιο κατανοητά
+αντίστοιχα άλλων γλωσσών?
 \begin{itemize}
 
 \item Τελεία για \e{attributes/members/fields}
@@ -122,6 +122,7 @@
 
 \end{itemize}
 
+\pause
 Υπάρχει κάτι καινούργιο που θα μπορούσα να προσθέσω?
 \begin{itemize}
 
@@ -161,7 +162,7 @@
 
 \end{otherlanguage}
 
-% \pause
+\pause
 Ορίσματα πριν ή στην μέση:
 \begin{otherlanguage}{english}
 \begin{center}
@@ -192,6 +193,8 @@
 \\~\
 
 Νέα συνάρτηση με είσοδο τα κενά ορίσματα.
+
+\pause
 \begin{otherlanguage}{english}
 \begin{center}
 \begin{tabular}{ |P{5cm}|P{5cm}| }
@@ -228,6 +231,7 @@ apply(_)to_all_in(_)
 
 
 \end{verbatim}
+\pause
 \begin{verbatim}
 apply(length_of(_))to_all_in(_)
   : ListOf(String)s => ListOf(Int)s
@@ -236,6 +240,7 @@ apply(length_of(_))to_all_in(_)
 apply(_)to_all_in(greetings)
   : (String => T1) => ListOf(T1)s
 \end{verbatim}
+\pause
 \begin{verbatim}
 >>> apply(length_of(_))to_all_in(greetings)
   = [4, 6, 3]
@@ -262,6 +267,7 @@ length :: String => Int
 map :: (a -> b) -> [a] -> [b]
 
 \end{verbatim}
+\pause
 \begin{verbatim}
 map length :: [String] -> [Int]
 \end{verbatim}
@@ -271,6 +277,7 @@ flip map :: [a] -> (a -> b) -> [b]
 \begin{verbatim}
 flip map greetings :: (String -> a) -> [a]
 \end{verbatim}
+\pause
 \begin{verbatim}
 >>> map length greetings
   = [4, 6, 3]
@@ -288,6 +295,7 @@ flip map greetings :: (String -> a) -> [a]
 \\~\
 
 Νέα συνάρτηση με είσοδο τα κενά στοιχεία.
+\pause
 
 \begin{otherlanguage}{english}
 \begin{verbatim}
@@ -302,6 +310,7 @@ flip map greetings :: (String -> a) -> [a]
 \end{verbatim}
 \end{otherlanguage}
 
+\pause
 Αντίστοιχα σε εκφράσεις τελεστών: παρακάτω.
 
 \end{frame}
@@ -323,6 +332,7 @@ flip map greetings :: (String -> a) -> [a]
 
 \end{itemize}
 
+\pause
 Δημιουργείται αυτόματα ένα \e{postfix function} για κάθε \e{field}:
 
 \begin{itemize}
@@ -350,22 +360,21 @@ flip map greetings :: (String -> a) -> [a]
 tuple_type Name
 value (first_name, last_name) : String^2
 \end{verbatim}
-% \pause
 \begin{verbatim}
 awesome_guy: Name
   = ("Leonhard", "Euler")
 \end{verbatim}
-% \pause
+\pause
 \begin{verbatim}
 >>> awesome_guy.last_name
   = "Euler"
 \end{verbatim}
-% \pause
+\pause
 \begin{verbatim}
 >>> _.last_name
   : Name => String
 \end{verbatim}
-% \pause
+\pause
 \begin{verbatim}
 >>> apply(_.last_name)to_all_in(_)
   : ListOf(Name)s => ListOf(String)s
@@ -384,6 +393,7 @@ awesome_guy: Name
 για \e{tuples} που έχουν τύπο γινόμενο.
 \\~\
 
+\pause
 \begin{otherlanguage}{english}
 \begin{verbatim}
 tuple : Real x String
@@ -395,6 +405,7 @@ origin : Real^3
   = (0, 0, 0)
 \end{verbatim}
 
+\pause
 \begin{verbatim}
 >>> tuple.2nd
   = "golden ratio"
@@ -419,12 +430,16 @@ origin : Real^3
 \begin{verbatim}
 state.change{counter = counter + 1}
 point.change{z = 2.718}
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 tuples : ListOf(Int^2)s
   = [(1, 2), (3, 4), (5, 6)]
 >>> apply(_.change{1st = 1st + 1})to_all_in(tuples)
   = [(2, 2), (4, 4), (6, 6)]
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 name : Name
   = ("Jacob", "Bernoulli")
 change_first_name_to(_) : String => Name
@@ -452,9 +467,11 @@ change_first_name_to(_) : String => Name
 
 \end{itemize}
 
+\pause
 Οι τιμές τους χωρίζονται σε περιπτώσεις (με ή χωρίς εσωτερικές τιμές).
 \\~\
 
+\pause
 Δημιουργείται αυτόματα ένα \e{prefix function} για κάθε περίπτωση με εσωτερική
 τιμή:
 
@@ -472,6 +489,8 @@ change_first_name_to(_) : String => Name
 \end{otherlanguage}
 
 \end{itemize}
+
+\pause
 \e{Pattern matching} με συνάρτηση \e{"cases"}.
 
 \end{frame}
@@ -491,7 +510,9 @@ values the_value:T1 | no_value
 
 or_type Result(T1)OrError(T2)
 values result:T1 | error:T2
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 >>> the_value:1
   : Possibly(Int)
 >>> the_value:_
@@ -524,10 +545,11 @@ values result:T1 | error:T2
 \\~\
 \end{center}
 
+\pause
 Αποφυγή ανοίγματος και κλεισίματος πολλών παρενθέσεων σε αλυσίδα εφαρμογών.
 \\~\
 
-Το όρισμα 'μπαίνει' στην συνάρτηση.
+Το όρισμα <<μπαίνει>> στην συνάρτηση.
 \end{frame}
 
 \begin{frame}[fragile]
@@ -556,6 +578,7 @@ sum_ints(_) : ListOf(Int)s => Int
 \begin{verbatim}
 strings : ListOf(String)s
 \end{verbatim}
+\pause
 \begin{verbatim}
 
 chars_in_odd_length_strings : Int
@@ -588,13 +611,14 @@ chars_in_odd_length_strings : Int
 \\~\
 \end{center}
 
+\pause
 Γιατί να γράφεις παραμέτρους όταν μπορείς να κάνεις σύνθεση?
 \\~\
 
 Μοιάζουν με σύνθεση στα μαθηματικά.
 \\~\
 
-'Δείχνουν' από πρώτη συνάρτηση σε δεύτερη.
+<<Δείχνουν>> από πρώτη συνάρτηση σε δεύτερη.
 \\~\
 \end{frame}
 
@@ -612,7 +636,9 @@ apply(_)to_all_in(_)
 reverse_str(_) : String => String
 
 merge_words(_) : ListOf(String)s => String
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 
 reverse_words_in(_) : String => String
   = split(_)to_words o>
@@ -647,6 +673,7 @@ reverse_words_in(_) : String => String
 \end{tabular}
 \end{center}
 
+\pause
 Ότι περιμένει κανείς για τους στάνταρ τύπους.
 \\~\
 
@@ -666,19 +693,29 @@ reverse_words_in(_) : String => String
 \begin{verbatim}
 >>> 'a' + 'b'
   = "ab"
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 >>> 'w' + "ord"
   = "word"
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 >>> "Hello " + "World!"
   = "Hello World!"
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 >>> 5 * 'a'
   = "aaaaa"
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 >>> 5 * "hi"
   = "hihihihihi"
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 >>> "1,2,3" - ','
   = "123"
 \end{verbatim}
@@ -716,10 +753,11 @@ reverse_words_in(_) : String => String
 \end{tabular}
 \end{center}
 
+\pause
 Μπορούν να συγκριθούν διαφορετικοί τύποι.
 \\~\
 
-Τελεστές 'και' και 'ή' πολυμορφικοί για να χρησιμοποιούνται και για
+Τελεστές <<και>> και <<ή>> πολυμορφικοί για να χρησιμοποιούνται και για
 \e{bitwise operations}.
 \\~\
 
@@ -745,6 +783,7 @@ reverse_words_in(_) : String => String
 \\~\
 \end{center}
 
+\pause
 Για συνδιασμούς δράσεων σε περιβάλλον (\e{IO, State} κτλ).
 \\~\
 
@@ -806,6 +845,7 @@ prepend : String => String
   = "The answer to " + _
 \end{verbatim}
 
+\pause
 \begin{verbatim}
 >>> apply(prepend o> (42, _))to_all_in(important_stuff)
   = [ (42, "The answer to the Ultimate Question of Life")
@@ -827,6 +867,8 @@ a => 17 * a + 42
 (x, y, z) => sqrt(x^2 + y^2 + z^2)
 \end{verbatim}
 \end{otherlanguage}
+
+\pause
 Αστερίσκος για παραμέτρους που δεν έχουν σημασία
 \begin{otherlanguage}{english}
 \begin{verbatim}
@@ -834,6 +876,8 @@ a => 17 * a + 42
 (x, *, z) => x + z
 \end{verbatim}
 \end{otherlanguage}
+
+\pause
 \e{Matching} σε παραμέτρους \e{tuples}
 \begin{otherlanguage}{english}
 \begin{verbatim}
@@ -853,12 +897,16 @@ a => 17 * a + 42
   = cases
     42 => true
     ... => false
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 gcd_of(_)and(_): Int^2 => Int
   = (x, cases)
     0 => x
     y => gcd_of(y)and((x)mod(y))
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 traffic_lights_match(_, _): TrafficLight^2 => Bool
   = (cases, cases)
     (green, green) => true
@@ -882,7 +930,9 @@ apply(_)to_all_in(_)
     [] => []
     [head, tail = ...] =>
       f(head) + apply(f(_))to_all_in(tail)
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 (_)is_sorted: ListOf(Int)s => Bool
   = cases
     [x1, x2, xs = ...] => (x1 <= x2) & (x2 + xs)is_sorted
@@ -902,6 +952,8 @@ foo: Int
   = 1
 \end{verbatim}
 \end{otherlanguage}
+
+\pause
 Ομαδοποίηση ορισμών:
 \begin{otherlanguage}{english}
 \begin{verbatim}
@@ -909,6 +961,8 @@ val1, val2, val3: Int, Bool, Char
   = 2, true, 'a'
 \end{verbatim}
 \end{otherlanguage}
+
+\pause
 Λέξη κλειδί \e{"all"}:
 \begin{otherlanguage}{english}
 \begin{verbatim}
@@ -1008,6 +1062,7 @@ sum_nodes(_): TreeOf(Int)s => Int
 (@E)Has_Use --> @E(T1) x (T1 => @E(T2)) => @E(T2)
 
 \end{verbatim}
+\pause
 \h
 \begin{verbatim}
 
@@ -1074,7 +1129,9 @@ needed wrap(_): T1 => @T(T1)
 
 type_proposition (@T)Has_Internal_App
 needed apply(_)inside(_) : (T1 => T2) x @T(T1) => @T(T2)
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 (_)to_string: (@T)Has_Str_Rep --> @T => String
 wrap(_): (@T)Has_A_Wrapper --> T1 => @T(T1)
 apply(_)inside(_)
@@ -1093,17 +1150,23 @@ apply(_)inside(_)
 \begin{verbatim}
 type_theorem (Possibly(_))Has_A_Wrapper
 proof wrap(_) = the_value:_
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 type_theorem (ListOf(_)s)Has_A_Wrapper
 proof wrap(_) = [_]
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 type_theorem (Possibly(_))Has_Internal_App
 proof
   apply(_)inside(_) =
     (f(_), cases)
       no_value => no_value
       the_value:x => the_value:f(x)
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 type_theorem (ListOf(_)s)Has_Internal_App
 proof apply(_)inside(_) = apply(_)to_all_in(_)
 \end{verbatim}
@@ -1121,7 +1184,9 @@ a, b : all Possibly(Int)
   = wrapper(1), no_value
 l1, l2, l3 : all ListOf(Int)s
   = wrapper(1), [], [1, 2, 3]
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 >>> a                        >>> l1
   = the_value:1                = [1]
 
@@ -1146,12 +1211,16 @@ l1, l2, l3 : all ListOf(Int)s
 \begin{verbatim}
 type_proposition (@T)Has_Equality
 equivalent (@T)And(@T)Can_Be_Equal
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 type_proposition (@A)And(@B)Are_Comparable
 equivalent
   (@A)Can_Be_Less_Than(@B), (@A)And(@B)Can_Be_Equal,
   (@A)Can_Be_Greater_Than(@B)
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 type_proposition (@T)Has_Comparison
 equivalent (@T)And(@T)Are_Comparable
 \end{verbatim}
@@ -1168,16 +1237,22 @@ equivalent (@T)And(@T)Are_Comparable
 type_theorem
   (@A)And(@B)Can_Be_Equal --> (@A)And(@B)Can_Be_Unequal
 proof a \= b = not(a == b)
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 type_theorem
   (@A)Can_Be_Greater_Than(@B) -->
   (@A)Can_Be_Le_Or_Eq_To(@B)
 proof a <= b = not(a > b)
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 type_proposition (@A)And(@B)Have_Eq_And_Gr
 equivalent
   (@A)And(@B)Can_Be_Equal, (@A)Can_Be_Greater_Than(@B)
-
+\end{verbatim}
+\pause
+\begin{verbatim}
 type_theorem
   (@A)And(@B)Have_Eq_And_Gr -->
   (@A)Can_Be_Gr_Or_Eq_To(@B)
@@ -1204,6 +1279,7 @@ proof a >= b = a == b | a > b
 \\~\
 \end{itemize}
 
+\pause
 Μετάφραση σε \h:
 \begin{itemize}
 \item Συντακτική ανάλυση
@@ -1212,6 +1288,7 @@ proof a >= b = a == b | a > b
 \\~\
 \end{itemize}
 
+\pause
 (\e{Compile} \h\ με \e{ghc}).
 \\~\
 
@@ -1238,6 +1315,7 @@ proof a >= b = a == b | a > b
 
 \end{itemize}
 
+\pause
 Μελλοντικά:
 \begin{itemize}
 \item \e{Semantic analysis}
