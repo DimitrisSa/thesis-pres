@@ -24,7 +24,7 @@
 
 \frametitle{Μ' αρέσει πολύ η \h}
 
-Τα πάντα είναι τιμές (όροι) και έχουν κάποιο τύπο:
+Τα πάντα είναι τιμές και έχουν κάποιο τύπο:
 
 \begin{itemize}
 
@@ -35,7 +35,7 @@
 % \pause
 \begin{itemize}
 
-\item Άρα μπορούν να είναι ορίσματα συναρτήσεων, στοιχεία λίστας κτλ
+\item Μπορούν να είναι ορίσματα συναρτήσεων, στοιχεία λίστας κτλ
 \\~\
 \end{itemize}
 
@@ -121,7 +121,7 @@
 Υπάρχει κάτι καινούργιο που θα μπορούσα να προσθέσω?
 \begin{itemize}
 
-\item Ορίσματα στην αρχή ή στην μέση του ονόματος της συνάρτησης
+\item Ορίσματα στην αρχή ή στην μέση του ονόματος
 
 \item Ανώνυμες Παράμετροι
 
@@ -192,11 +192,11 @@
 \begin{center}
 \begin{tabular}{ |P{5cm}|P{5cm}| }
  \hline
- \verb|f(_, 1.61, 42)| & \verb|x => f(x, 1.61, 42)|
+ \verb|f(_, 1.618, 42)| & \verb|x => f(x, 1.618, 42)|
  \\
  \verb|f(3.14, _, 42)| & \verb|x => f(3.14, x, 42)|
  \\
- \verb|f(_, 1.61, _)| & \verb|(x, y) => f(x, 1.61, y)|
+ \verb|f(_, 1.618, _)| & \verb|(x, y) => f(x, 1.618, y)|
  \\
  \hline
 \end{tabular}
@@ -234,7 +234,6 @@ apply(_)to_all_in(greetings)
 \end{verbatim}
 \begin{verbatim}
 >>> apply(length_of(_))to_all_in(greetings)
-  : ListOf(Int)s
   = [4, 6, 3]
 \end{verbatim}
 
@@ -355,7 +354,6 @@ awesome_guy: Name
 % \pause
 \begin{verbatim}
 >>> awesome_guy.last_name
-  : String
   = "Euler"
 \end{verbatim}
 % \pause
@@ -494,8 +492,8 @@ values result:T1 | error:T2
   : Possibly(Int)
 >>> the_value:_
   : T1 => Possibly(T1)
->>> result:1
-  : Result(Int)OrError(T1)
+>>> apply(the_value:_)to_all_in(_)
+  : ListOf(T1)s => ListOf(Possibly(T1))s
 
 \end{verbatim}
 \end{otherlanguage}
@@ -518,6 +516,8 @@ values result:T1 | error:T2
  \\
  \hline
 \end{tabular}
+\\~\
+\\~\
 \end{center}
 
 Αποφυγή άνοιγματος και κλεισίματος πολλών παρενθέσεων σε αλυσίδα εφαρμογών.
@@ -580,6 +580,8 @@ chars_in_odd_length_strings : Int
  \\
  \hline
 \end{tabular}
+\\~\
+\\~\
 \end{center}
 
 Γιατί να γράφεις παραμέτρους όταν μπορείς να κάνεις σύνθεση?
@@ -647,6 +649,9 @@ reverse_words_in(_) : String => String
 Γενικευμένοι για κόλπα \e{python} (κρατώντας την σιγουριά τύπων!).
 \\~\
 
+Πιο δυνατά κόλπα από \e{python}: μπορούν να οριστούν για οποιοδήποτε
+συνδιασμό τύπων από τον χρήστη.
+
 \end{frame}
 
 \begin{frame}[fragile]
@@ -657,19 +662,20 @@ reverse_words_in(_) : String => String
 \begin{verbatim}
 >>> 'a' + 'b'
   = "ab"
+
 >>> 'w' + "ord"
   = "word"
+
 >>> "Hello " + "World!"
-  : String
   = "Hello World!"
+
 >>> 5 * 'a'
-  : String
   = "aaaaa"
+
 >>> 5 * "hi"
-  : String
   = "hihihihihi"
+
 >>> "1,2,3" - ','
-  : String
   = "123"
 \end{verbatim}
 \end{otherlanguage}
@@ -678,7 +684,7 @@ reverse_words_in(_) : String => String
 
 \begin{frame}[fragile]
 
-\frametitle{Τελεστές: Σχεσιακοί και Λογικοί}
+\frametitle{Τελεστές: Σύγκρισης και Λογικοί}
 
 \begin{center}
 \begin{tabular}{ |P{0.8cm}|P{9.4cm}| }
@@ -740,22 +746,72 @@ reverse_words_in(_) : String => String
 \\~\
 
 Αντιστοιχούν στους \e{operators "bind"} και \e{"then"} των \e{Monads}.
+\\~\
 
+Το '\e{\texttt{;}}' μοιάζει αρκετά στην χρήση με \e{imperative} παρόλο που
+είναι \e{functional}.
 \end{frame}
 
 \begin{frame}[fragile]
 
 \frametitle{Τελεστές: Περιβάλλοντος}
 
+\begin{center}
+\begin{tabular}{ |P{0.4cm}|P{9.9cm}| }
+ \hline
+ \e{Op} & Τύπος
+ \\
+ \hline
+ \e{\texttt{;>}} & \e{\texttt{(@E)Has\_Use --> @E(T1) x (T1 => @E(T2)) => @E(T2)}}
+ \\
+ \e{\texttt{;}} & \e{\texttt{(@E)Has\_Then --> @E(T1) x @E(T2) => @E(T2)}}
+ \\
+ \hline
+\end{tabular}
+\\~\
+\end{center}
 \begin{otherlanguage}{english}
 \begin{verbatim}
 main: (EmptyVal)FromIO
   = print("I'll repeat the line") ; get_line ;> print(_)
+
+print(_) : String => (EmptyVal)FromIO
+
+print("I'll repeat the line") : (EmptyVal)FromIO
+
+get_line : (String)FromIO
+
 \end{verbatim}
 \end{otherlanguage}
-κτλ
 
-slide με ανώνυμη παράμετρο σε έκφραση τελεστών 42 κτλ
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Ένα ωραίο παράδειγμα με διάφορα}
+
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+important_stuff : ListOf(String)s
+  = [ "the Ultimate Question of Life"
+    , "the Universe"
+    , "Everything"
+    ]
+
+prepend : String => String
+  = "The answer to " + _
+\end{verbatim}
+
+\begin{verbatim}
+>> apply(prepend o> (42, _))to_all_in(important_stuff)
+  = [ (42, "The answer to the Ultimate Question of Life")
+    , (42, "The answer to the Universe")
+    , (42, "The answer to Everything")
+    ]
+\end{verbatim}
+\end{otherlanguage}
+
 \end{frame}
 
 \begin{frame}[fragile]
@@ -853,8 +909,8 @@ val1, val2, val3: Int, Bool, Char
 Λέξη κλειδί \e{"all"}:
 \begin{otherlanguage}{english}
 \begin{verbatim}
-int1, int2, int3: all Int
-  = 1, 2, 3
+golden_ratio, e, pi: all Real
+  = 1.618, 2.718, 3.1415
 \end{verbatim}
 \end{otherlanguage}
 
@@ -875,6 +931,29 @@ sort(_): ListOf(Int)s => ListOf(Int)s
       less_l, greater_l: all ListOf(Int)s
         = filter(tail)with(_ <= head)
         , filter(tail)with(_ > head)
+
+\end{verbatim}
+\end{otherlanguage}
+
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Εκφράσεις με \e{"where"}}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+sum_nodes(_): TreeOf(Int)s => Int
+  = tree =>
+    tree.root +
+    sum_list(_) <-
+    apply(sum_nodes(_))to_all_in(tree.subtrees)
+    where
+    sum_list(_) : ListOf(Int)s => Int
+      = cases
+        [] => 0
+        [head, tail = ...] => head + sum_list(tail)
+
 \end{verbatim}
 \end{otherlanguage}
 
@@ -921,18 +1000,19 @@ sort(_): ListOf(Int)s => ListOf(Int)s
 \begin{verbatim}
 (@A)And(@B)Add_To(@C) --> @A x @B => @C
 
-(@A)Is(@B)s_First --> @B => @A
+(@T)Has_Str_Rep --> @T => String
 
 (@E)Has_Use --> @E(T1) x (T1 => @E(T2)) => @E(T2)
 
 \end{verbatim}
 \h
 \begin{verbatim}
-Add a b c => a -> b -> c
 
-Show a => a -> String
+ Add a b c => a -> b -> c
 
-Monad m => m a -> (a -> m b) -> m b
+ Show a => a -> String
+
+ Monad m => m a -> (a -> m b) -> m b
 \end{verbatim}
 \end{otherlanguage}
 
@@ -945,8 +1025,11 @@ Monad m => m a -> (a -> m b) -> m b
 \begin{otherlanguage}{english}
 \begin{verbatim}
 type_nickname Ints = ListOf(Int)s
-type_nickname IntStringPairs = ListOf(Int x String)s
+
+type_nickname IntStrPairs = ListOf(Int x String)s
+
 type_nickname IO = (EmptyVal)FromIO
+
 type_nickname Res(T1)OrErr = Result(T1)OrError(String)
 
 \end{verbatim}
@@ -964,6 +1047,13 @@ type_nickname Res(T1)OrErr = Result(T1)OrError(String)
 \\~\
 
 Αντιστοιχεί στα \e{type classes (MultiParamTypeClasses extension)}.
+\\~\
+
+Ορισμοί ατομικών προτάσεων τύπων $ => $ \e{class declarations}
+\\~\
+
+Θεωρήματα προτάσεων τύπων $ => $ \e{instance declarations}
+\\~\
 
 \end{frame}
 
@@ -983,9 +1073,9 @@ type_proposition (@T)Has_Internal_App
 needed apply(_)inside(_) : (T1 => T2) x @T(T1) => @T(T2)
 
 
-wrap(_): (@T)Has_A_Wrapper --> T1 => @T(T1)
-
 (_)to_string: (@T)Has_Str_Rep --> @T => String
+
+wrap(_): (@T)Has_A_Wrapper --> T1 => @T(T1)
 
 apply(_)inside(_)
   : (@T)Has_Internal_App --> (T1 => T2) x @T(T1) => @T(T2)
@@ -1039,31 +1129,63 @@ proof apply(_)inside(_) = apply(_)to_all_in(_)
 \end{verbatim}
 \end{otherlanguage}
 
-\e{instance}
+\end{frame}
+
+\begin{frame}[fragile]
+
+\frametitle{Χρήση Των \e{Ad Hoc} Πολυμορφικών Συναρτήσεων}
+
+\begin{otherlanguage}{english}
+\begin{verbatim}
+a, b : all Possibly(Int)
+  = wrapper(1), no_value
+l1, l2, l3 : all ListOf(Int)s
+  = wrapper(1), [], [1, 2, 3]
+
+>>> a                        >>> l1
+  = the_value:1                = [1]
+
+>>> apply(_ + 1)inside(a)    >>> apply(_ + 1)inside(b)
+  = the_value:2                = no_value
+
+>>> apply(_ + 1)inside(l1)   >>> apply(_ + 1)inside(l2)
+  = [2]                        = []
+
+>>> apply(_ + 1)inside(l3)
+  = [2, 3, 4]
+\end{verbatim}
+\end{otherlanguage}
 
 \end{frame}
 
 \begin{frame}
 
-\frametitle{Υλοποίηση \e{Parser}}
+\frametitle{Υλοποίηση \e{Parser} και Μετάφραση σε \h}
 
-Βιβλιοθήκη \e{Parsec}.
+Βιβλιοθήκη \e{Parsec}:
 
 \begin{itemize}
 \item \e{Parser Combinator} Βιβλιοθήκη
 \item \e{Context-sensitive, Infinite look-ahead} γραμματικές
+\begin{itemize}
+\item Πολύ πρακτικό για σύστημα \e{indentation}
+\end{itemize}
+\item Μοιάζει αρκετά με \e{BNF} στην χρήση
 \\~\
 \end{itemize}
 
-Βουτιά στον κώδικα (αν υπάρχει χρόνος).
-\end{frame}
+Μετάφραση σε \h:
+\begin{itemize}
+\item Συντακτική ανάλυση
+\item Μετατροπές πάνω στο \e{AST}
+\item Νέο \e{AST} σε \h
+\\~\
+\end{itemize}
 
-\begin{frame}
+(\e{Compile} \h\ με \e{ghc}).
+\\~\
 
-\frametitle{Μετάφραση σε \h}
-
-Βουτιά στον κώδικα (αν υπάρχει χρόνος).
-
+Μια ματιά στον κώδικα (αν υπάρχει χρόνος).
 \end{frame}
 
 \begin{frame}

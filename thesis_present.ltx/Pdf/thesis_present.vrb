@@ -1,25 +1,24 @@
 
-\frametitle{Θεωρήματα Τύπων}
+\frametitle{Χρήση Των \e{Ad Hoc} Πολυμορφικών Συναρτήσεων}
 
 \begin{otherlanguage}{english}
 \begin{verbatim}
-type_theorem (Possibly(_))Has_A_Wrapper
-proof wrap(_) = the_value:_
+a, b : all Possibly(Int)
+  = wrapper(1), no_value
+l1, l2, l3 : all ListOf(Int)s
+  = wrapper(1), [], [1, 2, 3]
 
-type_theorem (ListOf(_)s)Has_A_Wrapper
-proof wrap(_) = [_]
+>>> a                        >>> l1
+  = the_value:1                = [1]
 
-type_theorem (Possibly(_))Has_Internal_App
-proof
-  apply(_)inside(_) =
-    (f(_), cases)
-      no_value => no_value
-      the_value:x => the_value:f(x)
+>>> apply(_ + 1)inside(a)    >>> apply(_ + 1)inside(b)
+  = the_value:2                = no_value
 
-type_theorem (ListOf(_)s)Has_Internal_App
-proof apply(_)inside(_) = apply(_)to_all_in(_)
+>>> apply(_ + 1)inside(l1)   >>> apply(_ + 1)inside(l2)
+  = [2]                        = []
+
+>>> apply(_ + 1)inside(l3)
+  = [2, 3, 4]
 \end{verbatim}
 \end{otherlanguage}
-
-\e{instance}
 
